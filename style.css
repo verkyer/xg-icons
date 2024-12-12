@@ -15,12 +15,12 @@ body {
 }
 
 body.light-mode {
-    background-color: #ffffff;
+    background-color: #f4f4f4; /* 更新浅色模式背景色 */
     color: #000000;
 }
 
 body.dark-mode {
-    background-color: #2a2a2a;
+    background-color: #292929; /* 更新深色模式背景色 */
     color: #ffffff;
 }
 
@@ -36,10 +36,10 @@ body.dark-mode {
 .logo {
     width: 36px;
     height: 36px;
-    border-radius: 8px;
+    border-radius: 4px; /* 更新圆角 */
     margin-right: 10px;
     object-fit: cover;
-    border: 1px solid #ccc;
+    border: 1px solid #c4c4c42b; /* 边框描边 */
 }
 
 h1 {
@@ -115,8 +115,8 @@ h1 {
     height: auto;
     max-width: 80px;
     object-fit: cover;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    border: 2px solid #f4f4f41c; /* 更新的边框颜色 */
+    border-radius: 4px; /* 更新圆角 */
     transition: border-color 0.3s ease;
 }
 
