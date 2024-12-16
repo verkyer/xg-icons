@@ -54,7 +54,7 @@
         ?>
     </div>
     <div class="footer">
-    Created by @XiaoGe.
+    Created by <a href="https://github.com/verkyer/xg-icons" target="_blank">@xg-icons</a>.
     </div>
     <script src="script.js"></script>
 </body>
