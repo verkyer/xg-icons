@@ -1,0 +1,33 @@
+name: Docker Build and Push
+
+on:
+  push:
+    branches:
+      - main  # 当 main 分支有 push 操作时触发
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile
+          push: true # 推送镜像到仓库
+          tags: |
+            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ github.repository }}:${{ github.sha }} # 使用 commit 的 sha 作为标签
+          build-args: | # build-args 是可选的，你可以根据实际需要添加
+            PHP_VERSION=8.2
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
