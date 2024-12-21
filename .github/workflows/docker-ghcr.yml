@@ -1,4 +1,4 @@
-name: Build and Push Docker Image to GHCR
+name: Build 和 Push Docker Image to GHCR
 
 on:
   push:
@@ -44,7 +44,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and Push Docker Image
+      - name: Build 和 Push Docker Image
         uses: docker/build-push-action@v3
         with:
           context: .
