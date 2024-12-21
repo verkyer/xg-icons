@@ -1,10 +1,7 @@
 name: Build 和 Push Docker Image to GHCR
 
 on:
-  push:
-    branches:
-      - main # 或者你想要触发构建的分支
-  workflow_dispatch: # 允许手动触发
+  workflow_dispatch: # 只允许手动触发
 
 jobs:
   build-and-push:
