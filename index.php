@@ -17,10 +17,22 @@
             <option value="all">全部</option>
             <?php
             $baseDir = 'images';
-            $categories = scandir($baseDir);
+            // 使用绝对路径，避免目录遍历漏洞
+            $realBaseDir = realpath($baseDir);
+
+            if ($realBaseDir === false) {
+                die("Error: Invalid base directory."); // 错误处理
+            }
+            
+            $categories = @scandir($realBaseDir); // 添加@抑制错误
+
+            if ($categories === false) {
+                die("Error: Could not read categories directory."); // 错误处理
+            }
 
             foreach ($categories as $category) {
-                if ($category !== '.' && $category !== '..' && is_dir("$baseDir/$category")) {
+                if ($category !== '.' && $category !== '..' && is_dir("$realBaseDir/$category")) {
+                     // 使用 htmlspecialchars 确保安全
                     echo "<option value='" . htmlspecialchars($category) . "'>" . htmlspecialchars($category) . "</option>";
                 }
             }
@@ -31,18 +43,26 @@
     <div id="gallery">
         <?php
         foreach ($categories as $category) {
-            if ($category !== '.' && $category !== '..' && is_dir("$baseDir/$category")) {
+             if ($category !== '.' && $category !== '..' && is_dir("$realBaseDir/$category")) {
                 echo "<div class='icon-group' data-group='" . htmlspecialchars($category) . "'>";
                 echo "<h2 class='group-title'>" . htmlspecialchars($category) . "</h2>";
                 echo "<div class='icons'>";
 
-                $images = scandir("$baseDir/$category");
+                $images = @scandir("$realBaseDir/$category"); // 添加@抑制错误
+                 if ($images === false) {
+                      echo "<p>Error: Could not read images in category: " . htmlspecialchars($category) . "</p>"; // 错误处理
+                      continue;
+                 }
+                
                 foreach ($images as $image) {
                     if (preg_match('/\.(jpg|jpeg|png|gif)$/i', $image)) {
                         $imagePath = "$baseDir/$category/$image";
                         $iconName = pathinfo($image, PATHINFO_FILENAME);
                         echo "<div class='icon' data-group='" . htmlspecialchars($category) . "' onclick=\"copyToClipboard('$imagePath', this)\">";
-                        echo "<img src='$imagePath' alt='" . htmlspecialchars($image) . "'>";
+                       
+                        // 添加 loading="lazy" 实现图片懒加载
+                        echo "<img src='$imagePath' alt='" . htmlspecialchars($image) . "' loading='lazy'>";
+                       
                         echo "<div class='icon-name'>" . htmlspecialchars($iconName) . "</div>";
                         echo "</div>";
                     }
@@ -54,7 +74,7 @@
         ?>
     </div>
     <div class="footer">
-    Created by <a href="https://github.com/verkyer/xg-icons" target="_blank">@xg-icons</a>.
+        Created by <a href="https://github.com/verkyer/xg-icons" target="_blank" rel="noopener noreferrer">@xg-icons</a>.
     </div>
     <script src="script.js"></script>
 </body>
