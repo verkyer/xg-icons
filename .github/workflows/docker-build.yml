@@ -24,7 +24,7 @@ jobs:
           push: true # 推送镜像到仓库
           tags: |
             ghcr.io/${{ github.repository }}:latest
-            ghcr.io/${{ github.repository }}:${{ github.sha }} # 使用 commit 的 sha 作为标签
+            ghcr.io/${{ github.repository }}:${{ github.sha  }}
           build-args: | # build-args 是可选的，你可以根据实际需要添加
             PHP_VERSION=8.2
           cache-from: type=gha
