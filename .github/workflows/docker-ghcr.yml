@@ -1,4 +1,4 @@
-name: Build 和 Push Docker Image to GHCR
+name: 构建和推送 Docker 镜像到 GHCR
 
 on:
   workflow_dispatch: # 只允许手动触发
