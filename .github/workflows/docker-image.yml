@@ -1,4 +1,4 @@
-name: Build and Push Docker Image
+name: Build 和 Push Docker Image
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -24,7 +24,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }} # 设置你的Docker Hub用户名，这里使用secrets
           password: ${{ secrets.DOCKER_PASSWORD }} # 设置你的Docker Hub密码，这里使用secrets
 
-      - name: Build and Push Docker image
+      - name: Build 和 Push Docker image
         uses: docker/build-push-action@v3
         with:
           context: .
