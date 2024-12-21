@@ -23,7 +23,7 @@ jobs:
           key: ${{ runner.os }}-buildx-cache-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-cache-
-        
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
@@ -37,5 +37,8 @@ jobs:
             PHP_VERSION=8.2
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
+          provenance: false
+          registry: ghcr.io
+          
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
