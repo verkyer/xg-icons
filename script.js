@@ -43,14 +43,16 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+
 function copyToClipboard(imagePath, element) {
-    const protocol = window.location.protocol;
-    const fullLink = `${protocol}//${window.location.host}/${imagePath}`;
-    
+    // 使用绝对路径
+   const fullLink = new URL(imagePath, window.location.origin).href;
+
     if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(fullLink).then(() => {
             showTooltip(element, '已复制!');
-        }, () => {
+        }, (err) => {
+            console.error('复制失败:', err);
             showTooltip(element, '复制失败');
         });
     } else {
@@ -65,6 +67,7 @@ function copyToClipboard(imagePath, element) {
             document.execCommand('copy');
             showTooltip(element, '已复制!');
         } catch (err) {
+           console.error('复制失败:', err);
             showTooltip(element, '复制失败');
         }
 
@@ -91,30 +94,27 @@ function filterIcons() {
     const groupSelect = document.querySelector('.group-select').value;
     const groups = document.querySelectorAll('.icon-group');
 
+
     groups.forEach(group => {
-        const icons = group.querySelectorAll('.icon');
-        let groupHasVisibleIcons = false;
+      const icons = group.querySelectorAll('.icon');
+      let groupHasVisibleIcons = false;
 
-        icons.forEach(icon => {
-            const iconName = icon.querySelector('.icon-name').textContent.toLowerCase();
-            const iconGroup = icon.getAttribute('data-group');
+      icons.forEach(icon => {
+          const iconName = icon.querySelector('.icon-name').textContent.toLowerCase();
+          const iconGroup = icon.getAttribute('data-group');
+          const matchesSearch = iconName.includes(searchInput);
+          const matchesGroup = groupSelect === 'all' || iconGroup === groupSelect;
 
-            const matchesSearch = iconName.includes(searchInput);
-            const matchesGroup = groupSelect === 'all' || iconGroup === groupSelect;
+          if (matchesSearch && matchesGroup) {
+            icon.style.display = 'flex';
+            groupHasVisibleIcons = true;
+          } else {
+            icon.style.display = 'none';
+          }
+      });
 
-            if (matchesSearch && matchesGroup) {
-                icon.style.display = 'flex';
-                groupHasVisibleIcons = true;
-            } else {
-                icon.style.display = 'none';
-            }
-        });
+       const groupTitle = group.querySelector('.group-title');
+       groupTitle.style.display = groupHasVisibleIcons ? 'block' : 'none';
 
-        const groupTitle = group.querySelector('.group-title');
-        if (groupHasVisibleIcons) {
-            groupTitle.style.display = 'block';
-        } else {
-            groupTitle.style.display = 'none';
-        }
     });
 }
