@@ -10,19 +10,23 @@
 
 将你的JPG、PNG图标，放到`/images/分组名称`文件下；例如`/images/docker/1.png`，就会自动抓取分组名称、图标名称，展示到首页。
 ### docker
-推荐使用 [trafex/php-nginx](https://hub.docker.com/r/trafex/php-nginx) 项目，部署后将本项目放到映射的 `/www/html` 目录
 
-参照yaml：
+参照Yaml：
 
 ```
-version: "3.3"
+version: "3.8"
 services:
-  php-nginx:
-    container_name: php-nginx
+  xg-icons:
+    container_name: xg-icons
+    image: ghcr.io/verkyer/xg-icons:latest
     ports:
-      - 19680:8080
+      - "28080:80" #端口号，按需修改
     volumes:
-      - ./www/html:/var/www/html
-    image: trafex/php-nginx
+      - ./images:/var/www/html/images 
+      #图标存放文件夹，里面需要再添加分组文件夹，如：/images/docker/1.png
+    environment:
+      - SITE_NAME=My Icons # 自定义网站名称
+      #- LOGO_IMG=logo.png # 自定义logo,同目录下或网址
+    restart: unless-stopped
 ```
-自行按需修改端口、映射路径。
+自行按需修改。
