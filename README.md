@@ -11,7 +11,7 @@
 将你的JPG、PNG图标，放到`/images/分组名称`文件下；例如`/images/docker/1.png`，就会自动抓取分组名称、图标名称，展示到首页。
 ### docker
 
-参照Yaml：
+- 参照Yaml：
 
 ```
 version: "3.8"
@@ -29,7 +29,7 @@ services:
       #- LOGO_IMG=logo.png # 自定义logo,同目录下或网址
     restart: unless-stopped
 ```
-参照Yaml（ghcr）：
+- 参照Yaml（ghcr）：
 
 ```
 version: "3.8"
