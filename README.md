@@ -18,6 +18,24 @@ version: "3.8"
 services:
   xg-icons:
     container_name: xg-icons
+    image: verky/xg-icons:latest
+    ports:
+      - "28080:80" #端口号，按需修改
+    volumes:
+      - ./images:/var/www/html/images 
+      #图标存放文件夹，里面需要再添加分组文件夹，如：/images/docker/1.png
+    environment:
+      - SITE_NAME=My Icons # 自定义网站名称
+      #- LOGO_IMG=logo.png # 自定义logo,同目录下或网址
+    restart: unless-stopped
+```
+参照Yaml（ghcr）：
+
+```
+version: "3.8"
+services:
+  xg-icons:
+    container_name: xg-icons
     image: ghcr.io/verkyer/xg-icons:latest
     ports:
       - "28080:80" #端口号，按需修改
