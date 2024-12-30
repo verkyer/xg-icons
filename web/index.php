@@ -10,32 +10,41 @@ set_error_handler('errorHandler');
 $baseDir = 'images';
 $realBaseDir = realpath($baseDir);
 
-if ($realBaseDir === false) {
+// 检查并获取所有分类
+if ($realBaseDir === false || !is_dir($realBaseDir)) {
     trigger_error("Invalid base directory.", E_USER_ERROR);
     die();
 }
 
-// 获取所有分类
 $categories = @scandir($realBaseDir);
 if ($categories === false) {
     trigger_error("Could not read categories directory.", E_USER_ERROR);
     die();
 }
 
-// 获取所有的图标数据
+// 路径验证函数
+function isValidPath($path, $baseDir) {
+    $realPath = realpath($path);
+    return $realPath !== false && strpos($realPath, realpath($baseDir)) === 0;
+}
+
+// 获取图标数据
 function getIconsData($realBaseDir, $baseDir, $categories) {
     $iconData = [];
-     foreach ($categories as $category) {
+    foreach ($categories as $category) {
         if ($category !== '.' && $category !== '..' && is_dir("$realBaseDir/$category")) {
-             $images = @scandir("$realBaseDir/$category");
+            $images = @scandir("$realBaseDir/$category");
             if ($images === false) {
-                trigger_error("Could not read images in category: " . htmlspecialchars($category),E_USER_WARNING);
-                 continue;
+                trigger_error("Could not read images in category: " . htmlspecialchars($category), E_USER_WARNING);
+                continue;
             }
             $categoryIcons = [];
             foreach ($images as $image) {
-                 if (preg_match('/\.(jpg|jpeg|png|gif)$/i', $image)) {
+                if (preg_match('/\.(jpg|jpeg|png|gif)$/i', $image)) {
                     $imagePath = $baseDir . DIRECTORY_SEPARATOR . $category . DIRECTORY_SEPARATOR . $image;
+                    if (!isValidPath($imagePath, $baseDir)) {
+                        continue;
+                    }
                     $iconName = pathinfo($image, PATHINFO_FILENAME);
                     $categoryIcons[] = [
                         'imagePath' => $imagePath,
@@ -50,12 +59,25 @@ function getIconsData($realBaseDir, $baseDir, $categories) {
     return $iconData;
 }
 
-$iconData = getIconsData($realBaseDir, $baseDir, $categories);
+// 自定义异常类
+class IconsException extends Exception {}
+
+try {
+    $iconData = getIconsData($realBaseDir, $baseDir, $categories);
+    if (empty($iconData)) {
+        throw new IconsException("没有找到任何图标");
+    }
+} catch (IconsException $e) {
+    error_log($e->getMessage());
+    echo "<div class='error-message'>{$e->getMessage()}</div>";
+    die();
+}
 
 // 网站名称、logo 和版权信息配置
-$siteName = getenv('SITE_NAME') ?: 'XiaoGe icons'; // 网站名称
+$siteName = getenv('SITE_NAME') ?: 'xg-icons'; // 网站名称
 $logoImg = getenv('LOGO_IMG') ?: 'favicon.ico';  // logo图片
 $copyright = getenv('COPYRIGHT') ?: 'Created by <a href="https://github.com/verkyer/xg-icons" target="_blank" rel="noopener noreferrer">@xg-icons</a>.'; // 版权信息
 
-// 引入模板文件，并传递数据
+// 引入模板文件
 require 'template.php';
+?>
