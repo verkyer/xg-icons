@@ -1,233 +1,340 @@
+/* 主体样式调整 */
 body {
     font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
     margin: 0;
+    padding: 14px; /* 保持紧凑布局 */
     width: 100%;
-    box-sizing: border-box;
-    overflow-x: hidden;
-    transition: background-color 0.3s ease, color 0.3s ease;
     min-height: 100vh;
-    position: relative;
-    padding-bottom: 60px; /* 给底部版权信息留出空间 */
-}
-
-body.light-mode {
-    background-color: #f4f4f4; /* 更新浅色模式背景色 */
-    color: #000000;
+    box-sizing: border-box;
+    background-color: #f8f9fa;
+    color: #343a40;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 body.dark-mode {
-    background-color: #292929; /* 更新深色模式背景色 */
-    color: #ffffff;
+    background-color: #242526;
+    color: #e4e6eb;
 }
 
 .header {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 12px; /* 增加标题上方的留白 */
     margin-bottom: 20px;
     width: 100%;
+    max-width: 1400px;
+    padding: 0 14px;
+    box-sizing: border-box;
     position: relative;
+}
+
+.header .logo-title {
+    display: flex;
+    align-items: center;
 }
 
 .logo {
     width: 36px;
     height: 36px;
-    border-radius: 4px; /* 更新圆角 */
     margin-right: 10px;
-    object-fit: cover;
-    border: 1px solid #c4c4c42b; /* 边框描边 */
+    border-radius: 4px;
+    transition: transform 0.2s ease;
+}
+
+.logo:hover {
+    transform: scale(1.1);
 }
 
 h1 {
-    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
     margin: 0;
 }
 
+/* 小屏幕特定调整 */
+@media (max-width: 300px) {
+    .logo {
+        width: 32px;
+        height: 32px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+}
+
+/* 搜索栏 */
 .search-container {
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
+    gap: 0; /* 取消子元素间隙 */
     width: 100%;
+    max-width: 290px; /* 总宽度减少 50px */
+    border: 1px solid #dfe1e5; /* 外边框 */
+    border-radius: 50px; /* 圆角胶囊样式 */
+    overflow: hidden; /* 防止子元素溢出 */
+    background-color: rgba(255, 255, 255, 0.1); /* 调整浅色模式背景透明度 */
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1); /* 添加轻微阴影效果 */
+    position: relative; /* 为居中优化定位 */
 }
 
-.group-select, .search-input {
-    margin-right: 10px;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: inherit;
+.group-select {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px; /* 缩小下拉框宽度 */
+    border: none; /* 移除边框 */
+    outline: none; /* 移除高亮 */
+    height: 34px;
+    /* padding: 0 10px; *//* 全部文字对齐 */
+    font-size: 13px;
+    cursor: pointer;
+    background-color: transparent;
+    color: inherit;
+    appearance: none; /* 移除默认样式 */
+    position: relative;
+    text-align: center;
+    line-height: 34px; /* 修正“全部”文字垂直居中 */
+    padding-left: 5px; /* 微调左侧文字间距，减少空余 */
+}
+
+.group-select::after {
+    content: "▼"; /* 自定义下箭头 */
+    position: absolute;
+    right: 10px; /* 贴近文字 */
+    font-size: 10px;
+    color: inherit;
+    pointer-events: none;
+}
+
+.group-select option {
+    font-size: 14px; /* 下拉选项字体稍微增大 */
+    color: #343a40; /* 浅色模式下文字颜色修复 */
+}
+
+body.dark-mode .group-select option {
+    color: #e4e6eb; /* 深色模式下文字颜色修复 */
+    background-color: #3a3b3c; /* 深色模式下背景色一致 */
+}
+
+.search-input {
+    flex: 1; /* 调整输入框宽度 */
+    width: calc(100% - 70px); /* 减去下拉框宽度，保持整体搜索栏居中 */
+    max-width: 220px; /* 输入框宽度缩短至 220px */
+    border: none;
+    outline: none;
+    height: 34px;
+    padding: 0 10px;
+    font-size: 13px;
+    background-color: transparent;
     color: inherit;
 }
 
+.search-input::placeholder {
+    color: rgba(51, 51, 51, 0.6); /* 优化浅色模式占位符颜色 */
+}
+
+body.dark-mode .search-input::placeholder {
+    color: rgba(228, 230, 235, 0.6); /* 深色模式占位符颜色调整 */
+}
+
+body.dark-mode .search-container {
+    background-color: rgba(58, 59, 60, 0.9); /* 深色模式背景 */
+    border-color: #5f6368;
+}
+
+body.dark-mode .group-select,
+body.dark-mode .search-input {
+    color: #e4e6eb; /* 深色模式字体颜色修复 */
+}
+
+body.dark-mode .group-select::after {
+    color: #e4e6eb; /* 修复深色模式下箭头颜色 */
+}
+
+/* 图标区域 */
 #gallery {
     width: 100%;
-    max-width: 1300px;
+    max-width: 1400px;
+    padding: 0 14px;
     box-sizing: border-box;
 }
 
 .icon-group {
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 .group-title {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
     padding-left: 10px;
-    font-size: 24px;
-}
-
-.group-title::before {
-    content: '';
-    display: inline-block;
-    width: 10px;
-    height: 24px;
-    background-color: rgba(190, 190, 190, 0.5);
-    border-radius: 2px;
-    margin-right: 10px;
+    border-left: 6px solid #00aeff;
 }
 
 .icons {
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 10px;
-    justify-items: center;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 0 20px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+/* 小屏幕设备 */
+@media (max-width: 300px) {
+    .icons {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* 540px~720px设备（5列图标） */
+@media (min-width: 540px) and (max-width: 720px) {
+    .icons {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+/* 平板设备（6~8列图标） */
+@media (min-width: 721px) and (max-width: 1024px) {
+    .icons {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+@media (min-width: 1025px) and (max-width: 1200px) {
+    .icons {
+        grid-template-columns: repeat(8, 1fr);
+    }
+}
+
+/* 大屏设备（PC端显示12列图标） */
+@media (min-width: 1200px) {
+    .icons {
+        grid-template-columns: repeat(12, 1fr);
+    }
 }
 
 .icon {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 6px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    cursor: pointer;
     position: relative;
-    width: 100%;
-    max-width: 80px;
-}
-
-.icon img {
-    width: 100%;
-    height: auto;
-    max-width: 80px;
-    object-fit: cover;
-    border: 2px solid #f4f4f41c; /* 更新的边框颜色 */
-    border-radius: 4px; /* 更新圆角 */
-    transition: border-color 0.3s ease;
-}
-
-.icon img:hover {
-    border-color: #666;
-}
-
-.icon-name {
-    margin-top: 5px;
-    font-size: 12px;
+    overflow: hidden;
     text-align: center;
 }
 
+.icon img {
+    width: 60px;
+    height: 60px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+    transition: transform 0.2s ease;
+}
+
+.icon:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 添加悬停阴影效果 */
+    transform: scale(1.1); /* 放大动画保留 */
+    background-color: #f1f3f5; /* 添加轻微背景色变化 */
+    transition: all 0.3s ease; /* 平滑过渡 */
+}
+
+body.dark-mode .icon:hover {
+    background-color: #3a3b3c; /* 深色模式下的背景颜色变化 */
+}
+
+.icon-name {
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: inherit;
+}
+
+/* 工具提示 */
 .tooltip {
     position: absolute;
-    top: 50%;
     left: 50%;
+    top: 40%;
     transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 5px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 5px 15px;
     border-radius: 4px;
     font-size: 12px;
+    text-align: center;
     white-space: nowrap;
-    z-index: 10;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
 }
 
 .icon:hover .tooltip {
     opacity: 1;
 }
 
-.theme-toggle-button, .back-to-top-button {
+/* 按钮样式 */
+.theme-toggle-button,
+.back-to-top-button {
     position: fixed;
-    right: 20px;
-    background: none;
-    border: 2px solid #ccc;
-    border-radius: 50%;
+    z-index: 9999;
     width: 36px;
     height: 36px;
-    font-size: 18px;
-    cursor: pointer;
-    transition: border-color 0.3s ease, background-color 0.3s ease;
+    border-radius: 50%;
+    border: none;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+    font-size: 24px;
     line-height: 1;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .theme-toggle-button {
-    bottom: 20px;
+    bottom: 60px;
+    right: 20px;
 }
 
 .back-to-top-button {
-    bottom: 70px;
-    display: none; /* 初始隐藏 */
-}
-
-.theme-toggle-button:hover, .back-to-top-button:hover {
-    border-color: #666;
-}
-
-body.light-mode .theme-toggle-button, body.light-mode .back-to-top-button {
-    background-color: #f0f0f0;
-}
-
-body.dark-mode .theme-toggle-button, body.dark-mode .back-to-top-button {
-    background-color: #444;
-    color: #fff;
+    bottom: 120px;
+    right: 20px;
+    display: none;
 }
 
 .footer {
-    position: absolute;
-    bottom: 10px;
+    margin-top: auto;
+    padding: 20px 0;
     width: 100%;
+    max-width: 1400px;
     text-align: center;
-    font-size: 14px;
-    color: rgba(128, 128, 128, 0.5);
+    font-size: 12px;
+    color: rgba(173, 181, 189, 0.7); /* 淡化版权信息颜色 */
+    border-top: 1px solid #e9ecef;
 }
 
-/* 链接样式 */
 .footer a {
-    color: rgba(128, 128, 128, 0.5); /* 设置为原来的灰色 */
-    text-decoration: none; /* 去掉下划线 */
+    color: rgba(173, 181, 189, 0.7); /* 超链接颜色与文字一致 */
+    text-decoration: none;
 }
 
 .footer a:hover {
-    color: rgba(128, 128, 128, 0.7); /* 悬停时稍微加深颜色 */
+    text-decoration: underline;
 }
 
-@media (max-width: 1024px) {
-    .icons {
-        grid-template-columns: repeat(8, 1fr);
-    }
+body.dark-mode .footer {
+    border-color: #3a3b3c;
+    color: rgba(108, 117, 125, 0.7); /* 深色模式下淡化版权文字 */
 }
 
-@media (max-width: 768px) {
-    .icons {
-        grid-template-columns: repeat(6, 1fr);
-        gap: 8px;
-        padding: 0 10px;
-    }
-}
-
-@media (max-width: 480px) {
-    .icons {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 10px;
-        padding: 0 5px;
-    }
+body.dark-mode .footer a {
+    color: rgba(108, 117, 125, 0.7); /* 深色模式下的超链接颜色 */
 }
