@@ -26,7 +26,7 @@ services:
       #图标存放文件夹，里面需要再添加分组文件夹，如：/images/docker/1.png
     environment:
       - SITE_NAME=My Icons # 自定义网站名称
-      #- LOGO_IMG=logo.png # 自定义logo,同目录下或网址
+      #- LOGO_IMG=/images/favicon.ico # 自定义logo,/images文件夹下的图片或网址
     restart: unless-stopped
 ```
 - 参照Yaml（ghcr）：
@@ -44,7 +44,7 @@ services:
       #图标存放文件夹，里面需要再添加分组文件夹，如：/images/docker/1.png
     environment:
       - SITE_NAME=My Icons # 自定义网站名称
-      #- LOGO_IMG=logo.png # 自定义logo,同目录下或网址
+      #- LOGO_IMG=/images/favicon.ico # 自定义logo,/images文件夹下的图片或网址
     restart: unless-stopped
 ```
 自行按需修改。
