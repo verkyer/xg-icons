@@ -9,7 +9,7 @@ body {
     width: 100%;
     min-height: 100vh;
     box-sizing: border-box;
-    background-color: #f8f9fa;
+    background-color: #f4f4f4;
     color: #343a40;
     transition: background-color 0.2s ease, color 0.2s ease;
 }
