@@ -28,6 +28,28 @@ function isValidPath($path, $baseDir) {
     return $realPath !== false && strpos($realPath, realpath($baseDir)) === 0;
 }
 
+// 自定义文件名排序函数 (优化后)
+function custom_filename_sort($a, $b) {
+    // 提取文件名主要部分和数字后缀
+    preg_match('/^(.*?)-(\d+)\./', $a, $matches_a);
+    $base_a = isset($matches_a[1]) ? $matches_a[1] : pathinfo($a, PATHINFO_FILENAME); // 获取文件名主要部分
+    $num_a = isset($matches_a[2]) ? intval($matches_a[2]) : 0;       // 获取数字后缀，没有则为 0
+
+    preg_match('/^(.*?)-(\d+)\./', $b, $matches_b);
+    $base_b = isset($matches_b[1]) ? $matches_b[1] : pathinfo($b, PATHINFO_FILENAME); // 获取文件名主要部分
+    $num_b = isset($matches_b[2]) ? intval($matches_b[2]) : 0;       // 获取数字后缀，没有则为 0
+
+    // 优先比较文件名主要部分
+    $base_cmp = strcmp($base_a, $base_b);
+    if ($base_cmp !== 0) {
+        return $base_cmp; // 主要部分不同，按字符串顺序排序
+    }
+
+    // 如果文件名主要部分相同，则比较数字后缀
+    return ($num_a < $num_b) ? -1 : (($num_a > $num_b) ? 1 : 0); // 数字小的排前面
+}
+
+
 // 获取图标数据
 function getIconsData($realBaseDir, $baseDir, $categories) {
     $iconData = [];
@@ -38,6 +60,7 @@ function getIconsData($realBaseDir, $baseDir, $categories) {
                 trigger_error("Could not read images in category: " . htmlspecialchars($category), E_USER_WARNING);
                 continue;
             }
+            usort($images, 'custom_filename_sort'); // 使用 usort 和自定义排序函数
             $categoryIcons = [];
             foreach ($images as $image) {
                 if (preg_match('/\.(jpg|jpeg|png|gif)$/i', $image)) {
