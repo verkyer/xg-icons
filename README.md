@@ -3,7 +3,7 @@
 使用ChatGpt糊的图标托管项目，基于PHP，可以实现自动抓取分组内的图标镜像展示，并且快速复制；
 适合于托管自己的docker图标库等~
 
-[**icon-pack**](https://github.com/verkyer/icon-pack)上线！基于python的重构版，解决了部分NAS系统PHP无法读取图片的问题，推荐使用！
+[**icon-pack**](https://github.com/verkyer/icon-pack)上线！基于python的重构版，解决了在部分NAS系统中，PHP无法读取图片的问题，推荐使用！
 ## 界面展示
 ![image](https://github.com/verkyer/xg-icons/blob/main/demo.png)
 ## 部署方式
